@@ -1,0 +1,33 @@
+{
+    "name": "eugene/country-tools",
+    "description": "Simple Laravel package for working with countries",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Eugene\\CountryTools\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Eugene\\CountryTools\\CountryServiceProvider"
+            ],
+            "aliases": {
+                "Country": "Eugene\\CountryTools\\Facades\\Country"
+            }
+        }
+    },
+    "authors": [
+        {
+            "name": "Eugene",
+            "email": "swallow1991@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require-dev": {
+        "phpunit/phpunit": "^9.5",
+        "mockery/mockery": "2.0.x-dev",
+        "illuminate/support": "^13.0@dev"
+    }
+}
