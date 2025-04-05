@@ -8,6 +8,7 @@ use Eugene\CountryTools\ValueObjects\Country;
 use PHPUnit\Framework\TestCase;
 use Mockery;
 
+// Run command ./vendor/bin/phpunit tests/CountryServiceTest.php
 class CountryServiceTest extends TestCase
 {
     protected CountryService $countryService;
