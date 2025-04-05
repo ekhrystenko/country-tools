@@ -12,6 +12,7 @@ class CountryService
 {
     private const CACHE_TIME = 3600;
     private const CACHE_KEY = 'country_codes';
+    private const CACHE_ALL_KEY = 'all_countries';
     protected Collection $countries;
 
     public function __construct(CountryRepositoryInterface $repository)
@@ -26,20 +27,19 @@ class CountryService
         });
     }
 
+    public function getAllCountries(): Collection
+    {
+        return Cache::remember(self::CACHE_ALL_KEY, self::CACHE_TIME, function () {
+            return $this->countries->map(function ($data, $code) {
+                return $this->mapToCountry($code, $data);
+            })->values();
+        });
+    }
+
     public function getCountry(string $code): ?Country
     {
         $data = $this->countries->get(strtoupper($code));
-
-        if ($data) {
-            return new Country(
-                strtoupper($code),
-                $data['name'],
-                $data['flag'],
-                $data['phone_code'],
-                $data['currency']
-            );
-        }
-        return null;
+        return $data ? $this->mapToCountry($code, $data) : null;
     }
 
     public function getName(string $code): ?string
@@ -71,5 +71,16 @@ class CountryService
     private function getCountryByCode(string $code): ?array
     {
         return $this->countries->get(strtoupper($code));
+    }
+
+    private function mapToCountry(string $code, array $data): Country
+    {
+        return new Country(
+            strtoupper($code),
+            $data['name'],
+            $data['flag'],
+            $data['phone_code'],
+            $data['currency']
+        );
     }
 }
